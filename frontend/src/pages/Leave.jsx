@@ -18,7 +18,7 @@ const Leave = () => {
   const [formData, setFormData] = useState(blankForm);
   const [error, setError] = useState(''); // red box
   const [message, setMessage] = useState(''); // green box
-
+  
   // token so the backend knows who is logged in
   const headers = { headers: { Authorization: `Bearer ${user?.token}` } };
 
@@ -67,6 +67,20 @@ const Leave = () => {
       loadLeaves();
     } catch (err) {
       setError(err.response?.data?.message || 'Could not cancel');
+    }
+  };
+
+  // manager approves or rejects (asks for a reason if rejecting)
+  const handleDecision = async (id, status) => {
+    const managerComment = status === 'Rejected' ? window.prompt('Reason for rejecting?') : '';
+    setError('');
+    setMessage('');
+    try {
+      await axiosInstance.put(`/api/leaves/${id}/decision`, { status, managerComment }, headers);
+      setMessage(`Request ${status.toLowerCase()}`);
+      loadLeaves();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Could not update request');
     }
   };
 
@@ -155,6 +169,18 @@ const Leave = () => {
               >
                 Cancel
               </button>
+            )}
+            
+            {/* manager can approve or reject while its pending */}
+            {user.role === 'manager' && leave.status === 'Pending' && (
+              <div className="mt-2">
+                <button onClick={() => handleDecision(leave._id, 'Approved')} className="mr-2 bg-green-600 text-white px-4 py-2 rounded">
+                  Approve
+                </button>
+                <button onClick={() => handleDecision(leave._id, 'Rejected')} className="bg-red-500 text-white px-4 py-2 rounded">
+                  Reject
+                </button>
+              </div>
             )}
           </div>
         ))

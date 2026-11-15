@@ -46,4 +46,28 @@ const cancelLeave = async (req, res) => {
     }
 };
 
-module.exports = { createLeave, getLeaves, cancelLeave };  // export so routes can use them
+// Manager approves or rejects a pending request (LMS-11)
+const decideLeave = async (req, res) => {
+    const { status, managerComment } = req.body;
+    if (!['Approved', 'Rejected'].includes(status)) { // only these 2 statuses are allowed
+        return res.status(400).json({ message: 'Status has to be Approved or Rejected' });
+    }
+    if (status === 'Rejected' && !managerComment) { // need a reason to reject
+        return res.status(400).json({ message: 'Please add a comment when rejecting' });
+    }
+    try {
+        const leave = await Leave.findById(req.params.id);
+        if (!leave) return res.status(404).json({ message: 'Request not found' });
+        if (leave.status !== 'Pending') { // cant change it once decided
+            return res.status(400).json({ message: 'This request has already been decided' });
+        }
+        leave.status = status;
+        leave.managerComment = managerComment;
+        await leave.save();
+        res.json(leave);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { createLeave, getLeaves, cancelLeave, decideLeave };  // export so routes can use them
