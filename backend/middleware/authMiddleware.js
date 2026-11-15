@@ -21,4 +21,10 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+// only lets managers through, everyone else gets a 403 (LMS-6, from self review)
+const managerOnly = (req, res, next) => {
+    if (req.user && req.user.role === 'manager') return next();
+    return res.status(403).json({ message: 'Only managers can do this' });
+};
+
+module.exports = { protect, managerOnly };
