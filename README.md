@@ -1,26 +1,35 @@
-**Task Manager Application Overview:The task manager application is designed to help users efficiently manage their tasks and responsibilities by providing a user-friendly interface for creating, viewing, updating, and deleting tasks. It includes essential features such as secure user authentication, allowing individuals to sign up and log in to their accounts, as well as profile management to update personal information. With built-in validation such as input field validation and email validation, the application ensures a seamless user experience while enhancing productivity and organization in both personal and professional settings. **
+# Leave Management System 
 
-**This apps **contain** the following features:**
+This is IFQ636 Assign1, built on Task Manager starter. Allows employees the ability to request, view and cancel leave requets. Managers can then go and approve and reject with a reason needed. THe live URL is at http://13.211.110.121
 
-* Signup
-* Login
-* Logout
-* Update profile
-* Add tasks
-* View tasks
-* Update tasks
-* Delete tasks
+# How it Works
+1. Pick employee or manager when you register
+2. Comprised of React frontend, Node/Express backend, MongoDB Atlas, JWT login
+3. Approve/reject option is for managers only. THis was added in after a self review. 
+4. nginx on port port 80 sends /api to backend (5001), everything else is sent to the frontend (3000), both run with pm2. 
 
-**This **app**lication** is**almost **a** precompiled** app**. However, students will develop some features,**such as adding tasks, viewing tasks, updating tasks, and **deleting** tasks**. **Students** will interact with GitHub when they develop the features.**
+# Running Locally 
+1. Clone the repo
+2. Make backend/.env from .env.example (MONGO_URI, JWT_SECRET, PORT)
+3. NPM run install-all, then just npm run dev. 
+4. Open localhost:3000
 
----
+# Deploying
+1. Ubuntu t2.micro, SYdney, student security groups, IFQ636-EC2-Role
+2. SSH and HTTP rules for my IPa, server Ip added in Atlas
+3. Installed, node, npm, nginx, pm2
+4. Cloned repo, made .env, started backend and frontend with pm2. 
+5. Nginx config, then restart
 
-**Prerequisite:** Please install the following software and create account in following web tools** **
 
-* **Nodejs [**[https://nodejs.org/en](https://nodejs.org/en)]** **
-* **Git [**[https://git-scm.com/](https://git-scm.com/)]** **
-* **VS code editor** [[https://code.visualstudio.com/](https://code.visualstudio.com/)]** **
-* **MongoDB Account** [[https://account.mongodb.com/account/login](https://account.mongodb.com/account/login)]** - In tutorial, we have also showed how can you create account and database: follow step number 2.**
-* **GitHub Account** [[https://github.com/signup?source=login](https://github.com/signup?source=login)]** **
+# limitations 
+1. HTTP only allowed from my IP (QUT actually removes open rules)
+2. No Leaave balances, as this was descoped 
+3. No overlapping check, and no emails. 
+4. HTTP and not HTTPS
+5. IP changes is the instance is stopped. 
 
----
+
+git clone https://github.com/AlexA-QUT/leave-management-system.git
+npm run install-all
+npm run dev
