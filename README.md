@@ -1,6 +1,6 @@
 # Leave Management System 
 
-This is IFQ636 Assign1, built on Task Manager starter. Allows employees the ability to request, view and cancel leave requets. Managers can then go and approve and reject with a reason needed. THe live URL is at http://13.211.110.121
+This is IFQ636 Assign1, built on Task Manager starter. Allows employees the ability to request, view and cancel leave requets. Managers can then go and approve and reject with a reason needed. 
 
 # Deployment details
 EC2 instance: i-05ef7db8a9c3ac2cf (AALMM), Sydney region, QUT AWS account
@@ -23,7 +23,7 @@ Live URL: http://<public IPv4 of the AALMM instance> (the IP changes every time 
 
 # Deploying
 1. Ubuntu t2.micro, SYdney, student security groups, IFQ636-EC2-Role
-2. SSH and HTTP rules for my IPa, server Ip added in Atlas
+2. SSH and HTTP rules for my IP, Atlas network access opened to any IP so a new server IP still connects
 3. Installed, node, npm, nginx, pm2
 4. Cloned repo, made .env, started backend and frontend with pm2. 
 5. Nginx config, then restart
@@ -53,6 +53,3 @@ QUT AWS automatically stops EC2 instances (overnight), so the app might be offli
 
 
 
-git clone https://github.com/AlexA-QUT/leave-management-system.git
-npm run install-all
-npm run dev
